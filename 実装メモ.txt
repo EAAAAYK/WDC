@@ -1,0 +1,139 @@
+2025年10月15日～
+=====実装メモ===============================================
+2025年10月15日
+・文字の形→Googlefontsのダウンロードリストに、過去に利用したフォント情報が残っており、不必要なフォント情報を含んだhtmlをコピペしていた。
+・「氏」の文字間隔(次回)
+
+2025年10月20日
+・クラス名付け方
+・  --bg-gradient: linear-gradient(
+    0.4turn,
+    #0e002e 0%,
+    #1e092b 23%,
+    #320c65 49%,
+    #a01b7c 80%,
+    #c21780 100%
+  );
+・font-size:clamp？？？？
+・text-transform: uppercase;効いてない→効いていた。見本は大文字揃えじゃなかった(拡張機能パーフェクトピクセルで重ねた画像とブラウザ画面の区別が付きにくい)
+・カーニングも未解決→letter-spacingの計算ミス。カーニング出番なしか
+・ラジオボタンはデフォルト設定
+
+2025年10月21日
+・body {
+  font-family: "Montserrat", "Noto Sans JP", "Helvetica Neue", Arial,
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+・mainvisual　flexかfloatか、画面の縮小ではみ出さないプロパティはなにか？
+　→見本ページのコード見る。画像をbackground-imageで設定している
+・  .main-inner {
+    background-position: 140% bottom;　　/*X　Y　の順で指定*/
+  }
+
+2025年10月22日
+・background-imageを使わない方法でメインビジュアルの人物画像を設定。max-width: ○px;とwidth:100%;とoverflow:hidden;使用
+・jsでスムーススクロール実装。)}の数が合わなくなっているとエラー出る。諦めてAIに書いてもらったコードをコピペ。
+・  font-feature-settings: "palt";を付けるとカンプから書き出した画像とのズレが発生したため、レスポンシブ時のみbodyにfont-feature-settings: "palt";を指定。
+
+
+済TODO:alt
+済TODO:OGP?
+済TODO:スムーススクロール、上に戻るボタン
+済TODO：お申し込みボタン押下時のスムーススクロール
+
+=====FB後メモ===============================================
+１、ドロワー→ドロワーメニュー→ハンバーガーメニュー
+２、フォントサイズ・ギャップ詰めによりヘッダー幅にメニューを収める→スクロールxは不使用
+・２の場合はヘッダー部分に背景色を設定することで領域を明示するアプローチを採りたい
+・「ディレクターに「こうしたいがどうか」「こうすべきでないかと思うが、最適解がピンとこない」といった感じに、相談するのもありかと思います。
+今回は、学習であって、そのような調整がしづらい、や、して良いものなのかという戸惑いがあるとは思いますが、していただいてもOKです。
+実務では、するべきなのかもしれませんね。」
+
+
+=====js括弧エラー解消===============================================
+document.addEventListener("DOMContentLoaded", () => {
+  const pagetop = document.querySelector(".toTop");
+
+  if (pagetop) {
+    pagetop.computedStyleMap.display = "none";
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 700) {
+        pagetop.computedStyleMap.display = "block";
+      } else {
+        pagetop.computedStyleMap.display = "none";
+      }
+    });
+  }
+  pagetop.addEventListener("click", (e) => {
+    e.preventDefault(); // デフォルト動作をキャンセル
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // スムーズスクロールを有効化
+    });
+  });
+
+  const anchorLinks=document.querySelectorAll(".header-nav a[href^='#']");
+
+  anchorLinks.forEach(link=>{
+    link.addEventListener('click',(e)=>{
+        e.preventDefault();
+
+        const targetId=link.getAttribute('href');
+        const targetElement=document.querySelector(targetId);
+
+        if(targetElement{
+            window.scrollTo({
+                top:targetElement.offsetTop,
+                behavior:'smooth'
+            })
+        })
+        })
+    }
+
+)
+
+
+===============true=============
+なぜ括弧の数が違っているのか。いつもペアで書いてるんじゃなかったのか。なんなんだ
+
+document.addEventListener("DOMContentLoaded", () => {
+  const pagetop = document.querySelector(".toTop");
+
+  if (pagetop) {
+    pagetop.computedStyleMap.display = "none";
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 700) {
+        pagetop.computedStyleMap.display = "block";
+      } else {
+        pagetop.computedStyleMap.display = "none";
+      }
+    });
+  }
+  pagetop.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+
+  const anchorLinks = document.querySelectorAll(".header-nav a[href^='#']");
+
+  anchorLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const targetId = link.getAttribute("href");
+      const targetElement = document.querySelector(targetId);
+
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop,
+          behavior: "smooth",
+        });
+      }
+    });
+  });
+});
+
+
